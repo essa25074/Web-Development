@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Interactive Control Panel Demo</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        text-align: center;
+        margin-top: 50px;
+    }
+
+    #box {
+        width: 150px;
+        height: 150px;
+        background: steelblue;
+        margin: 20px auto;
+        transition: 0.3s;
+    }
+
+    button {
+        padding: 10px 20px;
+        margin: 10px;
+        cursor: pointer;
+    }
+</style>
+</head>
+<body>
+
+<h2>Interactive Web Control Panel</h2>
+
+<div id="box"></div>
+
+<button id="colorBtn">Change Color</button>
+<button id="sizeBtn">Resize Box</button>
+<button id="actionBtn">Random Action</button>
+
+<audio id="beep">
+    <source src="https://actions.google.com/sounds/v1/cartoon/wood_plank_flicks.ogg" type="audio/ogg">
+</audio>
+
+<script>
+// ------------------------------------------
+// 1. Higher-order function that accepts a callback
+// ------------------------------------------
+function performAction(callback) {
+    callback();  // run the passed-in function
+}
+
+// ------------------------------------------
+// 2. Callback functions for different interactions
+// ------------------------------------------
+function changeColor() {
+    const box = document.getElementById("box");
+    const randomColor = "#" + Math.floor(Math.random()*16777215).toString(16);
+    box.style.background = randomColor;
+}
+
+function resizeBox() {
+    const box = document.getElementById("box");
+    const newSize = 100 + Math.random() * 150;
+    box.style.width = newSize + "px";
+    box.style.height = newSize + "px";
+}
+
+// ------------------------------------------
+// 3. Conditional routing using switch
+// ------------------------------------------
+function randomAction() {
+    const action = Math.floor(Math.random() * 3);
+
+    switch(action) {
+        case 0:
+            changeColor();
+            break;
+        case 1:
+            resizeBox();
+            break;
+        case 2:
+            document.getElementById("beep").play();
+            alert("Sound triggered!");
+            break;
+    }
+}
+
+// ------------------------------------------
+// 4. Event listeners using callbacks
+// ------------------------------------------
+document.getElementById("colorBtn").onclick = () => performAction(changeColor);
+document.getElementById("sizeBtn").onclick = () => performAction(resizeBox);
+document.getElementById("actionBtn").onclick = randomAction;
+
+</script>
+
+</body>
+</html>
